@@ -1,0 +1,16 @@
+---
+features:
+  - noop.feature
+  - noop2.feature
+  - two_scripts.feature
+properties:
+  shell:
+    workingDir: ../../testHome/
+  ift:
+    hostname: my_host
+  simple: foobar
+  num: 5
+plugins:
+  - pretty
+steps:
+  - script_steps/

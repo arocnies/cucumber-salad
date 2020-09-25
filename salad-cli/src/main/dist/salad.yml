@@ -1,0 +1,4 @@
+# Default config. These values are overridden by the executed config.
+---
+plugins:
+  - pretty

@@ -1,0 +1,7 @@
+---
+features:
+  - external_steps.feature
+plugins:
+  - pretty
+steps:
+  - jars/

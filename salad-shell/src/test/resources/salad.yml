@@ -1,0 +1,6 @@
+---
+properties:
+  shell:
+    workingDir: "./"
+    env:
+      foo: bar

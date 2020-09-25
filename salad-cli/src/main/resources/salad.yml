@@ -1,0 +1,21 @@
+---
+## Relative paths to feature files or directories (no wild cards)
+features:
+  - features/
+
+properties:
+  name: World
+  address:
+    state: FL
+    city: Orlando
+
+plugins:
+  - pretty
+
+## Relative paths to stepDef files (step.kts/jar) or directories (no wild cards)
+steps:
+  - steps/
+
+## Include arbitrary Cucumber arguments:
+#cucumberArgs:
+#  - "--monochrome"

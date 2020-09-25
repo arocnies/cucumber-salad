@@ -1,0 +1,6 @@
+---
+features:
+  - noop.feature
+  - fail.feature
+plugins:
+  - pretty

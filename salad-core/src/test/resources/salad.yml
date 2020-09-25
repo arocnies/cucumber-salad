@@ -1,0 +1,15 @@
+---
+features:
+  - noop.feature
+  - noop2.feature
+properties:
+  shell:
+    workingDir: ../../testHome/
+  ift:
+    hostname: my_host
+  simple: foobar
+  num: 5
+plugins:
+  - pretty
+#stepDefs:
+#  - stepDefs/

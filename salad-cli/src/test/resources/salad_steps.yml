@@ -1,0 +1,14 @@
+---
+features:
+  - ../../main/resoureces/features/*
+properties:
+  shell:
+    workingDir: ../../testHome/
+  ift:
+    hostname: my_host
+  simple: foobar
+  num: 5
+plugins:
+  - pretty
+steps:
+  - ../../main/resoureces/steps/hello.step.kts
