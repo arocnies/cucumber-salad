@@ -17,7 +17,6 @@ dependencies {
     implementation("io.cucumber:cucumber-java8:$cucumberVersion")
     implementation("io.cucumber:cucumber-junit:$cucumberVersion")
     implementation("com.github.ajalt.clikt:clikt:3.0.1")
-    implementation("io.cucumber:cucumber-java8:6.1.1")
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
     testImplementation("com.github.stefanbirkner:system-lambda:1.1.0")
