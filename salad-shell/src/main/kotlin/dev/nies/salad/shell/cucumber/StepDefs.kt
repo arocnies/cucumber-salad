@@ -4,6 +4,7 @@ import dev.nies.salad.shell.*
 import io.cucumber.java8.En
 import io.cucumber.java8.Scenario
 import java.io.File
+import java.nio.file.Paths
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -401,8 +402,8 @@ class StepDefs : En {
 
     private fun initShellGroup(): ShellGroup {
         val config = loadShellConfig()
-        return ShellGroup(workingDirectory = config.workingDir) {
-            environment().putAll(config.env)
+        return ShellGroup(workingDirectory = config.workingDir ?: Paths.get("").toAbsolutePath().toString()) {
+            if (!config.env.isNullOrEmpty()) environment().putAll(config.env)
         }
     }
 }

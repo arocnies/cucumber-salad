@@ -14,5 +14,7 @@ allprojects {
 
     repositories {
         mavenCentral()
+        // fixme: This is here due to the salad-kotlin-scripting not resolving it. Why? Move it there.
+        maven(url = "https://dl.bintray.com/jakubriegel/kotlin-shell")
     }
 }

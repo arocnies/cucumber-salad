@@ -13,14 +13,14 @@ open class ConfigProvider {
      * Returns a subconfig of properties at [path] mapped to the type [T].
      * Common usage is to map properties to a data class.
      */
-    inline fun <reified T> getPropertyConfig(path: String): T {
-        try {
-            return getRawConfig()
+    inline fun <reified T> getPropertyConfig(path: String): T? {
+        return try {
+            getRawConfig()
                 .from.map.hierarchical(saladConfig.properties)
                 .at(path)
                 .toValue()
         } catch (e: Exception) {
-            throw PropertyConfigException(e, path)
+            return null
         }
     }
 }
