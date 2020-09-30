@@ -13,13 +13,14 @@ class CucumberSaladCommandTest {
 
     @Test
     fun `print usage on --help`() {
-        val exitCode = catchSystemExit {
-            val output = tapSystemOut {
+        val output = tapSystemOut {
+            val exitCode = catchSystemExit {
                 CucumberSaladCommand(testConfig).main(arrayOf("--help"))
             }
-            assertTrue { "Usage:" in output }
+            assertEquals(0, exitCode)
         }
-        assertEquals(0, exitCode)
+        assertTrue { "Usage:" in output }
+        println("OUTPUT:\n$output")
     }
 
     @Test
