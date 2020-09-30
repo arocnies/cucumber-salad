@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm")
     application
     id("nebula.ospackage") version "8.4.1"
+    id("com.github.breadmoirai.github-release") version "2.2.12"
 }
 
 repositories {
@@ -107,4 +108,16 @@ tasks.processResources {
         File(versionFile).writeText(version.toString())
     }
     from("$buildDir/tmp/version.txt")
+}
+
+githubRelease {
+    token(properties["githubToken"].toString()) // This is your personal access token with Repo permissions
+    // You get this from your user settings > developer settings > Personal Access Tokens
+    owner("arocnies") // default is the last part of your group. Eg group: "com.github.breadmoirai" => owner: "breadmoirai"
+    repo("cucumber-salad")
+    prerelease(true) // by default this is false
+    releaseAssets(tasks.buildRpm.get().outputs) // this points to which files you want to upload as assets with your release
+
+    //overwrite(true) // by default false; if set to true, will delete an existing release with the same tag and name
+    //dryRun(true) // by default false; you can use this to see what actions would be taken without making a release
 }
