@@ -13,7 +13,7 @@ data class SaladConfig internal constructor(
 }
 
 open class ConfigurationException(message: String = "Failed to load config", cause: Throwable? = null) :
-    Throwable(message, cause)
+    Exception(message, cause)
 
 class PropertyConfigException(cause: Throwable?, path: String) :
     ConfigurationException("Failed to load property config from \"$path\"", cause)

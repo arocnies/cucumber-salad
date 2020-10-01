@@ -49,7 +49,7 @@ class CucumberScriptEnvironment(rootClassLoader: ClassLoader = Thread.currentThr
 class CucumberScriptException(
     override val message: String? = null,
     override val cause: Throwable? = null
-) : Throwable()
+) : Exception()
 
 class AggregateClassLoader(parent: ClassLoader) : ClassLoader(parent) {
     val classLoaders = mutableListOf<ClassLoader>()

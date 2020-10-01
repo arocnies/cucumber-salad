@@ -75,7 +75,6 @@ internal class KtsBackend(
                 @Suppress("UNCHECKED_CAST")
                 it as Class<LambdaGlue>
             }
-            .onEach { println(it) }
             .toCollection(lambdaGlueClasses)
     }
 
