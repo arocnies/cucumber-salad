@@ -6,7 +6,7 @@ plugins {
 
 allprojects {
     group = "dev.nies"
-    version = "0.0.1"
+    version = "0.0.2"
 
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"

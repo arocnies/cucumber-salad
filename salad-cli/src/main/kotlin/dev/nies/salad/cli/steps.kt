@@ -3,7 +3,7 @@ package dev.nies.salad.cli
 import dev.nies.salad.core.config.SaladConfig
 import dev.nies.salad.script.AggregateClassLoader
 import dev.nies.salad.script.CucumberScriptEnvironment
-import dev.nies.salad.script.CucumberScriptExtension
+import dev.nies.salad.script.kts.KTS_GLUE_EXTENSION
 import java.io.File
 import java.net.URL
 import java.net.URLClassLoader
@@ -28,7 +28,7 @@ fun ClassLoader.withStepsFrom(vararg files: File): ClassLoader {
             println("Loading steps from: ${file.path}")
             when {
                 file.isDirectory -> withStepsFromDirectory(file)
-                file.name.endsWith(CucumberScriptExtension) -> withStepsFromKtsScript(file)
+                file.name.endsWith(KTS_GLUE_EXTENSION) -> withStepsFromKtsScript(file)
                 file.name.endsWith(".jar") -> withStepsFromJar(file)
                 else -> {
                     println("Steps at ${file.path} not supported")

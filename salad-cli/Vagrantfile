@@ -71,6 +71,6 @@ Vagrant.configure("2") do |config|
   #   apt-get install -y apache2
   # SHELL
   config.vm.provision "shell", inline: <<-SHELL
-    rpm -e cucumber-salad || rpm -i /vagrant/build/distributions/cucumber-salad-0.0.1.x86_64.rpm
+    rpm -e cucumber-salad || rpm -i /vagrant/build/distributions/cucumber-salad-*.x86_64.rpm
   SHELL
 end

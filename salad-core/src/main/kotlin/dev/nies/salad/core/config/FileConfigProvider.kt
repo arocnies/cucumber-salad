@@ -13,6 +13,7 @@ open class FileConfigProvider(private val path: String) : ConfigProvider() {
 
     protected fun findSaladConfigFile(saladConfigPath: String): File {
         val saladFile = File(saladConfigPath)
+        // fixme: All uses of absolutePath fail to print path relative to current dir.
         if (!saladFile.exists()) throw ConfigurationException("Could not find config at ${saladFile.absolutePath}")
         if (!saladFile.canRead()) throw ConfigurationException("Could not read config at ${saladFile.absoluteFile}")
         return saladFile

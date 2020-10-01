@@ -1,7 +1,7 @@
 package io.cucumber.java8
 
 import dev.nies.salad.script.AggregateClassLoader
-import dev.nies.salad.script.CucumberScript
+import dev.nies.salad.script.kts.KtsGlueScript
 import io.cucumber.core.backend.*
 import io.cucumber.core.resource.ClasspathScanner
 import io.cucumber.core.resource.ClasspathSupport
@@ -15,7 +15,7 @@ internal class KtsBackend(
     private val container: Container,
     private val classLoaderProvider: Supplier<ClassLoader?>?
 ) : Backend {
-    private val classFinder: ClasspathScanner
+    private val classFinder: ClasspathScanner = ClasspathScanner(classLoaderProvider)
     private val lambdaGlueClasses: MutableList<Class<out LambdaGlue?>> = ArrayList()
     private lateinit var glue: Glue
 
@@ -69,7 +69,7 @@ internal class KtsBackend(
             .filterNotNull()
             .filter { !it.isInterface }
             .filter { it.constructors.isNotEmpty() }
-            .filter { it != CucumberScript::class.java }
+            .filter { it != KtsGlueScript::class.java }
             .filter { LambdaGlue::class.java.isAssignableFrom(it) }
             .map {
                 @Suppress("UNCHECKED_CAST")
@@ -146,7 +146,4 @@ internal class KtsBackend(
         }
     }
 
-    init {
-        classFinder = ClasspathScanner(classLoaderProvider)
-    }
 }

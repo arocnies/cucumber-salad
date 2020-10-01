@@ -1,6 +1,6 @@
 package dev.nies
 
-println(salad)
+println("Salad config from within a script: $salad")
 val name: String? = salad.properties.getOrElse("name") { "Unnamed" }.toString()
 var output: String = ""
 

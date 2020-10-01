@@ -119,7 +119,7 @@ githubRelease {
     prerelease(true) // by default this is false
     releaseAssets(file("$buildDir/distributions/cucumber-salad-$version.x86_64.rpm")) // this points to which files you want to upload as assets with your release
 
-    overwrite(true) // by default false; if set to true, will delete an existing release with the same tag and name
+    overwrite(false) // by default false; if set to true, will delete an existing release with the same tag and name
     //dryRun(true) // by default false; you can use this to see what actions would be taken without making a release
 }
 

@@ -1,13 +1,36 @@
-package dev.nies.salad.script
+package dev.nies.salad.script.kts
 
 import dev.nies.salad.core.config.SaladConfig
+import dev.nies.salad.script.CucumberScriptException
 import io.cucumber.java8.*
 import kotlin.script.experimental.annotations.KotlinScript
 
-const val CucumberScriptExtension = "step.kts"
+/**
+ * Import other script(s)
+ */
+@Target(AnnotationTarget.FILE)
+@Repeatable
+@Retention(AnnotationRetention.SOURCE)
+annotation class Import(vararg val paths: String)
 
-@KotlinScript(fileExtension = CucumberScriptExtension)
-open class CucumberScript : En {
+/**
+ * Compiler options that will be applied on script compilation
+ *
+ * @see [kotlin.script.experimental.api.compilerOptions]
+ */
+@Target(AnnotationTarget.FILE)
+@Repeatable
+@Retention(AnnotationRetention.SOURCE)
+annotation class CompilerOptions(vararg val options: String)
+
+const val KTS_GLUE_EXTENSION = "step.kts"
+
+@KotlinScript(
+    fileExtension = KTS_GLUE_EXTENSION,
+    compilationConfiguration = KtsGlueScriptCompilationConfiguration::class,
+    evaluationConfiguration = KtsGlueScriptEvaluationConfiguration::class
+)
+open class KtsGlueScript : En {
     val salad: SaladConfig get() = SaladConfig.configProvider.saladConfig
 
     private fun checkCucumberState() {
@@ -574,4 +597,3 @@ open class CucumberScript : En {
         if (isCucumberInitialized) super.When(expression, body)
     }
 }
-
