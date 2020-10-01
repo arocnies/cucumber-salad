@@ -48,6 +48,7 @@ ospackage {
         """
         echo "export CUCUMBER_SALAD_HOME=/usr/share/cucumber-salad" > /etc/profile.d/cucumber-salad.sh
         chmod a+x /etc/profile.d/cucumber-salad.sh
+        source /etc/profile.d/cucumber-salad.sh
     """.trimIndent()
     )
 }
@@ -116,8 +117,12 @@ githubRelease {
     owner("arocnies") // default is the last part of your group. Eg group: "com.github.breadmoirai" => owner: "breadmoirai"
     repo("cucumber-salad")
     prerelease(true) // by default this is false
-    releaseAssets(tasks.buildRpm.get().outputs) // this points to which files you want to upload as assets with your release
+    releaseAssets(file("$buildDir/distributions/cucumber-salad-$version.x86_64.rpm")) // this points to which files you want to upload as assets with your release
 
-    //overwrite(true) // by default false; if set to true, will delete an existing release with the same tag and name
+    overwrite(true) // by default false; if set to true, will delete an existing release with the same tag and name
     //dryRun(true) // by default false; you can use this to see what actions would be taken without making a release
+}
+
+tasks.getByName("githubRelease") {
+    dependsOn(tasks.buildRpm)
 }

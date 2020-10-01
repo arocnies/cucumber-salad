@@ -46,6 +46,7 @@ Vagrant.configure("2") do |config|
   # config.vm.synced_folder "../data", "/vagrant_data"
   #config.vm.synced_folder "build/distributions", "/vagrant_data"
   config.vm.synced_folder "src/test/resources", "/vagrant_data/test"
+  config.vm.synced_folder "build/distributions", "/vagrant_data/distributions"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.

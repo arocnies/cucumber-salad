@@ -10,7 +10,7 @@ class CliConfigProvider(private val appConfig: ApplicationConfig, private val pa
     FileConfigProvider(pathArg) {
     override val saladConfig: SaladConfig
         get() = Config()
-            .optionallyFromYml(appConfig.cucumberSaladHome)
+            .optionallyFromYml("${appConfig.cucumberSaladHome}/salad.yml")
             .from.yaml.file(findSaladConfigFile(pathArg))
             .toValue()
 }
