@@ -107,6 +107,22 @@ tasks.processResources {
     from("$buildDir/tmp/version.txt")
 }
 
+var imageName: String? by extra
+docker {
+    dependsOn(tasks.buildRpm.get())
+    imageName = "dev.nies.cucumber-salad:$version"
+    name = imageName
+    copySpec.from("$buildDir/distributions/cucumber-salad-$version.x86_64.rpm").into("/app")
+}
+
+val dockerSaveImage by tasks.registering(Exec::class) {
+    group = "docker"
+    dependsOn(tasks.docker)
+    val imageTar = "$buildDir/distributions/cucumber-salad-docker.tar"
+    commandLine("docker", "save", "-o", imageTar, imageName)
+    outputs.files(imageTar)
+}
+
 githubRelease {
     token(properties["githubToken"].toString()) // This is your personal access token with Repo permissions
     // You get this from your user settings > developer settings > Personal Access Tokens
@@ -115,24 +131,15 @@ githubRelease {
     prerelease(true) // by default this is false
     releaseAssets( // this points to which files you want to upload as assets with your release
         tasks.buildRpm.get().outputs.files,
-        tasks.dockerfileZip.get().outputs.files,
+        dockerSaveImage.get().outputs.files,
         file("$rootDir/salad-kotlin-scripting/build/libs/salad-kotlin-scripting-$version.jar")
     )
 
-    overwrite(true) // by default false; if set to true, will delete an existing release with the same tag and name
-    dryRun(false) // by default false; you can use this to see what actions would be taken without making a release
+    overwrite(false) // by default false; if set to true, will delete an existing release with the same tag and name
+    dryRun(true) // by default false; you can use this to see what actions would be taken without making a release
 }
 
 tasks.getByName("githubRelease") {
     dependsOn(tasks.buildRpm)
-    dependsOn(tasks.dockerfileZip)
-}
-
-docker {
-    name = "dev.nies.cucumber-salad:$version"
-    copySpec.from("$buildDir/distributions/cucumber-salad-$version.x86_64.rpm").into("/app")
-}
-
-tasks.dockerfileZip {
-    archiveBaseName.set("cucumber-salad-docker")
+    dependsOn(dockerSaveImage)
 }
