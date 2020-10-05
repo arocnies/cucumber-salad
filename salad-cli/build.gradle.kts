@@ -3,6 +3,7 @@ plugins {
     application
     id("nebula.ospackage") version "8.4.1"
     id("com.github.breadmoirai.github-release") version "2.2.12"
+    id("com.palantir.docker") version "0.25.0"
 }
 
 repositories {
@@ -71,11 +72,6 @@ dependencies {
     testStepsImplementation("io.cucumber:cucumber-java8:$cucumberVersion")
 }
 
-//val buildTestSteps by tasks.registering(JavaCompile::class) {
-//    group = "build"
-//    classpath = sourceSets["testSteps"].runtimeClasspath
-//}
-
 val externalStepsJar by tasks.registering(Jar::class) {
     group = "build"
     dependsOn("testStepsClasses")
@@ -117,12 +113,26 @@ githubRelease {
     owner("arocnies") // default is the last part of your group. Eg group: "com.github.breadmoirai" => owner: "breadmoirai"
     repo("cucumber-salad")
     prerelease(true) // by default this is false
-    releaseAssets(file("$buildDir/distributions/cucumber-salad-$version.x86_64.rpm")) // this points to which files you want to upload as assets with your release
+    releaseAssets( // this points to which files you want to upload as assets with your release
+        tasks.buildRpm.get().outputs.files,
+        tasks.dockerfileZip.get().outputs.files,
+        file("$rootDir/salad-kotlin-scripting/build/libs/salad-kotlin-scripting-$version.jar")
+    )
 
-    overwrite(false) // by default false; if set to true, will delete an existing release with the same tag and name
-    //dryRun(true) // by default false; you can use this to see what actions would be taken without making a release
+    overwrite(true) // by default false; if set to true, will delete an existing release with the same tag and name
+    dryRun(false) // by default false; you can use this to see what actions would be taken without making a release
 }
 
 tasks.getByName("githubRelease") {
     dependsOn(tasks.buildRpm)
+    dependsOn(tasks.dockerfileZip)
+}
+
+docker {
+    name = "dev.nies.cucumber-salad:$version"
+    copySpec.from("$buildDir/distributions/cucumber-salad-$version.x86_64.rpm").into("/app")
+}
+
+tasks.dockerfileZip {
+    archiveBaseName.set("cucumber-salad-docker")
 }

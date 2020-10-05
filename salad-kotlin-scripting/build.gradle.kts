@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    id("com.github.johnrengelman.shadow") version "6.0.0"
 }
 
 repositories {
@@ -9,7 +10,6 @@ repositories {
 dependencies {
     val cucumberVersion = properties["cucumberVersion"]
 
-    api(project(":salad-core"))
     api(kotlin("script-runtime"))
     implementation("io.cucumber:cucumber-java8:$cucumberVersion")
     implementation("io.cucumber:cucumber-junit:$cucumberVersion")
@@ -20,6 +20,7 @@ dependencies {
     implementation(kotlin("test-junit"))
 
     // Imported to be made available within scripts.
+    api(project(":salad-core"))
     api("eu.jrie.jetbrains:kotlin-shell-core:0.2.1")
     api(project(":salad-shell"))
     api(kotlin("test"))
